@@ -6,6 +6,7 @@ import com.cenobitor.bos.domain.base.Standard;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 
@@ -15,6 +16,7 @@ import javax.annotation.Resource;
  * @Date: Created in 8:18 PM 12/03/2018
  * @Modified By:
  */
+@Transactional
 @Service
 public class StandardServiceImpl implements StandardService {
 

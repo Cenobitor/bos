@@ -21,16 +21,47 @@
 			}
 			
 			function doEdit(){
-				alert("修改...");
+
+                //获取用户选择的行数,如果不为1,弹出警告,否则弹出修改框
+                var rows = $("#grid").datagrid("getSelections");
+                if (rows.length == 1){
+                    //弹出修改框
+                    $("#addWindow").window("open");
+                    //回填数据
+                    $("#addWindow").form("load",rows[0]);
+                } else{
+                    $.messager.alert('消息','请选择一行数据进行修改','info');
+                }
 			}
 			
 			function doDelete(){
-				alert("删除...");
+
+			    var rows = $("#grid").datagrid("getSelections");
+			    if(rows.length == 0){
+			        $.messager.alert("提示","请选择至少一条数据进行操作","info");
+                } else{
+                    $.messager.confirm("提示","您确定要作废这些快递员信息吗?",function (r) {
+                        if (r){
+
+                            var array = new Array();
+                            for (var i = 0; i < rows.length;i++){
+                                array.push(rows[0].id);
+                            }
+                            window.location.href="../../courierAction_batchDel.action?ids="+array;
+                        }
+
+                    })
+                }
 			}
 			
 			function doRestore(){
 				alert("将取派员还原...");
 			}
+
+			function doSearch() {
+				$("#searchWindow").window(("open"))
+            }
+
 			//工具栏
 			var toolbar = [ {
 				id : 'button-add',	
@@ -52,7 +83,12 @@
 				text : '还原',
 				iconCls : 'icon-save',
 				handler : doRestore
-			}];
+			},{
+                id : 'button-search',
+                text : '搜索',
+                iconCls : 'icon-search',
+                handler : doSearch
+            }];
 			// 定义列
 			var columns = [ [ {
 				field : 'id',
@@ -109,10 +145,11 @@
 				width : 80,
 				align : 'center',
 				formatter : function(data,row, index){
-					if(data=="0"){
-						return "正常使用"
-					}else{
-						return "已作废";
+
+					if(data=="1"){
+                        return "已作废";
+                    }else{
+                        return "正常使用";
 					}
 				}
 			}, {
@@ -141,7 +178,7 @@
 					pageList: [30,50,100],
 					pagination : true,
 					toolbar : toolbar,
-					url : "../../data/courier.json",
+					url : "../../courierAction_pageQuery.action",
 					idField : 'id',
 					columns : columns,
 					onDblClickRow : doDblClickRow
@@ -163,6 +200,19 @@
 			function doDblClickRow(){
 				alert("双击表格数据...");
 			}
+
+			//添加表单提交函数
+			function submitDate() {
+				var result = $("#courierFrom").form("validate");
+				if (result){
+                    $("#courierFrom").submit();
+				}
+            }
+            //搜索函数
+            function realSearch(){
+                $("#courierFrom").submit();
+			}
+
 		</script>
 	</head>
 
@@ -173,15 +223,16 @@
 		<div class="easyui-window" title="对收派员进行添加或者修改" id="addWindow" collapsible="false" minimizable="false" maximizable="false" style="top:20px;left:200px">
 			<div region="north" style="height:31px;overflow:hidden;" split="false" border="false">
 				<div class="datagrid-toolbar">
-					<a id="save" icon="icon-save" href="#" class="easyui-linkbutton" plain="true">保存</a>
+					<a id="save" icon="icon-save" href="#" class="easyui-linkbutton" plain="true" onclick="submitDate()">保存</a>
 				</div>
 			</div>
 
 			<div region="center" style="overflow:auto;padding:5px;" border="false">
-				<form>
+				<form id="courierFrom" action="../../courierAction_save.action" method="post">
 					<table class="table-edit" width="80%" align="center">
 						<tr class="title">
 							<td colspan="4">收派员信息</td>
+							<td><input type="hidden" name="id" /></td>
 						</tr>
 						<tr>
 							<td>快递员工号</td>
@@ -223,7 +274,7 @@
 								<input type="text" name="standard.id" 
 										class="easyui-combobox" 
 										data-options="required:true,valueField:'id',textField:'name',
-											url:'../../standard_findAll.action'"/>
+											url:'../../standardAction_findAll.action'"/>
 							</td>
 						</tr>
 						<tr>
@@ -274,7 +325,7 @@
 							</td>
 						</tr>
 						<tr>
-							<td colspan="2"><a id="searchBtn" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-search'">查询</a> </td>
+							<td colspan="2"><a id="searchBtn" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="realSearch()">查询</a> </td>
 						</tr>
 					</table>
 				</form>
