@@ -3,11 +3,7 @@ package com.cenobitor.bos.domain.base;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  * @description:地域信息实体类，主要包含 省市区(县)
@@ -17,6 +13,7 @@ import javax.persistence.Table;
 public class Area {
 
     @Id
+    @GeneratedValue
     @Column(name = "C_ID")
     private Long id;
     @Column(name = "C_PROVINCE")

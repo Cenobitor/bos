@@ -1,5 +1,5 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.cenobitor</groupId>
@@ -9,6 +9,7 @@
   <description>统一管理依赖</description>
   <modules>
     <module>bos_mangement</module>
+      <module>cenobitorUtils</module>
   </modules>
 
   <name>Maven</name>
@@ -38,6 +39,7 @@
     <cxf.version>3.0.1</cxf.version>
     <servlet.version>2.5</servlet.version>
     <junit.version>4.11</junit.version>
+
   </properties>
 
 

@@ -3,6 +3,7 @@ package com.cenobitor.bos.service.base;
 import com.cenobitor.bos.domain.base.Courier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 
 /**
  * @Author: Cenobitor
@@ -12,7 +13,7 @@ import org.springframework.data.domain.Pageable;
  */
 public interface CourierService {
     void save(Courier model);
-    Page<Courier> pageQuery(Pageable pageable);
+    Page<Courier> pageQuery(Specification<Courier> specification, Pageable pageable);
 
     void batchDel(String ids);
 

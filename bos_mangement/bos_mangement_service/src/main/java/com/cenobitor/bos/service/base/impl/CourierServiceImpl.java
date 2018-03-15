@@ -7,6 +7,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,8 +31,8 @@ public class CourierServiceImpl implements CourierService {
     }
 
     @Override
-    public Page<Courier> pageQuery(Pageable pageable) {
-        Page<Courier> page = courierRepository.findAll(pageable);
+    public Page<Courier> pageQuery(Specification<Courier> specification, Pageable pageable) {
+        Page<Courier> page = courierRepository.findAll(specification,pageable);
         return page;
     }
 

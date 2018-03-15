@@ -3,11 +3,8 @@ package com.cenobitor.bos.web.action.base;
 
 import com.cenobitor.bos.domain.base.Standard;
 import com.cenobitor.bos.service.base.StandardService;
-import com.opensymphony.xwork2.ActionSupport;
-
-import com.opensymphony.xwork2.ModelDriven;
+import com.cenobitor.bos.web.action.BaseAction;
 import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Namespace;
@@ -18,12 +15,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @Author: Cenobitor
@@ -35,40 +31,19 @@ import java.util.Map;
 @ParentPackage("struts-default")
 @Scope("prototype")
 @Controller
-public class StandardAction extends ActionSupport implements ModelDriven<Standard> {
+public class StandardAction extends BaseAction<Standard> {
 
     @Resource(name = "standardServiceImpl")
     private StandardService standardService;
 
-    private Standard model;
-
-    @Override
-    public Standard getModel() {
-        if (model == null){
-            model = new Standard();
-        }
-        return model;
-    }
 
     @Action(value = "standardAction_save",results = {
             @Result(name = "success",type = "redirect",location = "/pages/base/standard.html")
     })
     public String save(){
-        standardService.save(model);
+
+        standardService.save(getModel());
         return SUCCESS;
-    }
-
-    //分页查询方法
-    //使用属性驱动介绍页面提交的分页查询参数
-    private int page ; // 当前页码
-    private int rows ; //每页显示多少条数据
-
-    public void setPage(int page) {
-        this.page = page;
-    }
-
-    public void setRows(int rows) {
-        this.rows =  rows;
     }
 
     @Action(value = "standardAction_findAll" )
@@ -78,7 +53,7 @@ public class StandardAction extends ActionSupport implements ModelDriven<Standar
         List<Standard> list = page.getContent();
         //将数组转换为json字符串
         String json = JSONArray.fromObject(list).toString();
-        System.out.println(json);
+
         HttpServletResponse response = ServletActionContext.getResponse();
         response.setContentType("application/json;charset=utf-8");
         response.getWriter().write(json);
@@ -91,15 +66,7 @@ public class StandardAction extends ActionSupport implements ModelDriven<Standar
 
         Pageable pageable = new PageRequest(page - 1, rows);
         Page<Standard> page = standardService.pageQuery(pageable);
-        long totalElements = page.getTotalElements();
-        List<Standard> list = page.getContent();
-        Map<String, Object> map = new HashMap<>();
-        map.put("total",totalElements);
-        map.put("rows",list);
-        String json = JSONObject.fromObject(map).toString();
-        ServletActionContext.getResponse().setContentType("application/json;charset=utf-8");
-        ServletActionContext.getResponse().getWriter().write(json);
-
+        page2json(page,null);
         return NONE;
     }
 
