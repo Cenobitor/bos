@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @Author: Cenobitor
@@ -38,5 +39,12 @@ public class AreaServiceImpl implements AreaService {
     public Page<Area> pageQuery(Pageable pageable) {
         Page<Area> page = areaRepository.findAll(pageable);
         return page;
+    }
+
+    @Override
+    public List<Area> findQ(String q) {
+        q = "%"+q.toUpperCase()+"%";
+        List<Area> list = areaRepository.findQ(q);
+        return list;
     }
 }

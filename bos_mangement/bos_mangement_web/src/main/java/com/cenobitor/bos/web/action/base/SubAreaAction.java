@@ -1,15 +1,14 @@
 package com.cenobitor.bos.web.action.base;
 
-
 import com.cenobitor.bos.domain.base.Area;
-import com.cenobitor.bos.service.base.AreaService;
+import com.cenobitor.bos.domain.base.FixedArea;
+import com.cenobitor.bos.domain.base.SubArea;
+import com.cenobitor.bos.service.base.SubAreaService;
 import com.cenobitor.bos.web.action.BaseAction;
 import com.cenobitor.utils.PinYin4jUtils;
 import net.sf.json.JsonConfig;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.formula.functions.T;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Namespace;
@@ -22,6 +21,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 
+import javax.persistence.Column;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -32,63 +34,53 @@ import java.util.List;
 /**
  * @Author: Cenobitor
  * @Description:
- * @Date: Created in 4:27 PM 15/03/2018
+ * @Date: Created in 3:59 PM 16/03/2018
  * @Modified By:
  */
 @Namespace("/")
 @ParentPackage("struts-default")
 @Controller
 @Scope("prototype")
-public class AreaAction  extends BaseAction<Area> {
+public class SubAreaAction extends BaseAction<SubArea> {
+
+
+    @Autowired
+    private SubAreaService subAreaService;
+
+    @Action(value = "subAreaAction_save",results = {
+            @Result(name = "success",location = "/pages/base/sub_area.html" ,type = "redirect")
+    })
+    public String save(){
+        subAreaService.save(getModel());
+        return SUCCESS;
+    }
+
+    @Action(value = "subAreaAction_pageQuery")
+    public String pageQuery() throws IOException {
+
+        Pageable pageable = new PageRequest(page - 1, rows);
+        Page<SubArea> page = subAreaService.pageQuery(pageable);
+
+        JsonConfig jsonConfig = new JsonConfig();
+        jsonConfig.setExcludes(new String[]{"subareas"});//忽略相关字段防止互相调用引起的懒加载问题
+
+        page2json(page,jsonConfig);
+
+        return NONE;
+    }
 
     private File file;
 
     public void setFile(File file) {
         this.file = file;
     }
-    @Autowired
-    private AreaService areaService;
 
-
-    @Action(value = "areaAction_save",results = {
-            @Result(name = "success",location = "/pages/base/area.html",type = "redirect")
-    })
-    public String save(){
-        areaService.save(getModel());
-        return SUCCESS;
-    }
-
-    private String q;
-
-    public void setQ(String q) {
-        this.q = q;
-    }
-
-    @Action(value = "areaAction_findAll")
-    public String findAll() throws IOException {
-        List<Area> list;
-        if (StringUtils.isNotEmpty(q)){
-            list = areaService.findQ(q);
-        }else {
-            Page<Area> page = areaService.pageQuery(null);
-            list = page.getContent();
-        }
-
-        JsonConfig jsonConfig = new JsonConfig();
-        jsonConfig.setExcludes(new String[]{"subareas"});
-
-        list2json(list,jsonConfig);
-
-        return NONE;
-    }
-
-
-
-    @Action(value = "areaAction_importXLS",results = {
-            @Result(name = "success",location = "/pages/base/area.html",type = "redirect")
+    @Action(value = "subAreaAction_importXLS" ,results = {
+            @Result(name = "success",location = "/pages/base/sub_area.html",type = "redirect")
     })
     public String importXLS(){
-        ArrayList<Area> list = new ArrayList<>();
+
+        ArrayList<SubArea> list = new ArrayList<>();
         try {
             HSSFWorkbook workbook = new HSSFWorkbook(new FileInputStream(file));
 
@@ -102,26 +94,32 @@ public class AreaAction  extends BaseAction<Area> {
                 String province = row.getCell(1).getStringCellValue();
                 String city = row.getCell(2).getStringCellValue();
                 String district = row.getCell(3).getStringCellValue();
-                String postcode = row.getCell(4).getStringCellValue();
+
+                String startNum = row.getCell(4).getStringCellValue();
+                String endNum = row.getCell(5).getStringCellValue();
+                Character single = Character.valueOf(row.getCell(6).getStringCellValue().charAt(0));
+                String assistKeyWords = row.getCell(7).getStringCellValue();
                 //截取到省市区的最后一个字符
                 province = province.substring(0, province.length() - 1);
                 city = city.substring(0,city.length()-1);
                 district = district.substring(0,district.length()-1);
-                //获得城市编码
-                String citycode = PinYin4jUtils.hanziToPinyin(city,"").toUpperCase();
-                String[] headByString = PinYin4jUtils.getHeadByString(province + city + district, true);
-                String shortcode = PinYin4jUtils.stringArrayToString(headByString).toUpperCase();
 
                 Area area = new Area();
-                area.setProvince(province);
                 area.setCity(city);
                 area.setDistrict(district);
-                area.setCitycode(citycode);
-                area.setPostcode(postcode);
-                area.setShortcode(shortcode);
-                list.add(area);
+                area.setProvince(province);
+
+                SubArea subArea = new SubArea();
+
+                subArea.setStartNum(startNum);
+                subArea.setEndNum(endNum);
+                subArea.setSingle(single);
+                subArea.setAssistKeyWords(assistKeyWords);
+                subArea.setArea(area);
+
+                list.add(subArea);
             }
-            areaService.save(list);
+            subAreaService.save(list);
 
             workbook.close();
         } catch (IOException e) {
@@ -129,20 +127,4 @@ public class AreaAction  extends BaseAction<Area> {
         }
         return SUCCESS;
     }
-
-    @Action(value = "areaAction_pageQuery" )
-    public String pageQuery() throws IOException {
-
-        Pageable pageable = new PageRequest(page - 1, rows);
-        Page<Area> page = areaService.pageQuery(pageable);
-
-        //解决懒加载问题,灵活控制输出内容
-        JsonConfig jsonConfig = new JsonConfig();
-        jsonConfig.setExcludes(new String[]{"subareas"});
-
-        page2json(page,jsonConfig);
-
-        return NONE;
-    }
-
 }

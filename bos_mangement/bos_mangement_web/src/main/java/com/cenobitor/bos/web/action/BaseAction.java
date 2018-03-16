@@ -2,6 +2,7 @@ package com.cenobitor.bos.web.action;
 
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
 import org.apache.struts2.ServletActionContext;
@@ -37,7 +38,6 @@ public class BaseAction<T> extends ActionSupport implements ModelDriven<T> {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            System.out.println("base Action:" + model);
         }
         return model;
     }
@@ -76,5 +76,21 @@ public class BaseAction<T> extends ActionSupport implements ModelDriven<T> {
         response.setContentType("application/json;charset=utf-8");
         response.getWriter().write(json);
     }
+
+    public void list2json(List<T> list,JsonConfig jsonConfig) throws IOException {
+        String json;
+        //解决懒加载问题,灵活控制输出内容
+        if (jsonConfig == null){
+
+            json = JSONArray.fromObject(list).toString();
+        }else {
+            json = JSONArray.fromObject(list,jsonConfig).toString();
+        }
+
+        HttpServletResponse response = ServletActionContext.getResponse();
+        response.setContentType("application/json;charset=utf-8");
+        response.getWriter().write(json);
+    }
+
 
 }
