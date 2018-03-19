@@ -5,6 +5,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 
+import java.util.List;
+
 /**
  * @Author: Cenobitor
  * @Description:
@@ -17,4 +19,5 @@ public interface CourierService {
 
     void batchDel(String ids);
 
+    List<Courier> findAll();
 }

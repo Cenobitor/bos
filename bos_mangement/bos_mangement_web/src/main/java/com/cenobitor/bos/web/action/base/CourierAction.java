@@ -21,6 +21,7 @@ import javax.annotation.Resource;
 import javax.persistence.criteria.*;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -112,5 +113,14 @@ public class CourierAction extends BaseAction<Courier> {
     public String batchDel(){
         courierService.batchDel(ids);
         return SUCCESS;
+    }
+
+    @Action(value = "courierAction_listajax")
+    public String listajax() throws IOException {
+        List<Courier> list = courierService.findAll();
+        JsonConfig jsonConfig = new JsonConfig();
+        jsonConfig.setExcludes(new String[]{"fixedAreas","takeTime"});
+        list2json(list,null);
+        return NONE;
     }
 }

@@ -11,6 +11,8 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 /**
  * @Author: Cenobitor
  * @Description:
@@ -44,5 +46,11 @@ public class CourierServiceImpl implements CourierService {
                 courierRepository.updateDelTagsById(Long.parseLong(string));
             }
         }
+    }
+
+    @Override
+    public List<Courier> findAll() {
+        List<Courier> list = courierRepository.findAll();
+        return list;
     }
 }

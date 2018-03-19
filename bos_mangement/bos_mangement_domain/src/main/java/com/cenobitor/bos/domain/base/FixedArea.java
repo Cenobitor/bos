@@ -4,16 +4,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.*;
 
 /**
  * @description:定区
@@ -24,6 +15,7 @@ public class FixedArea {
 
     @Id
     @Column(name = "C_ID")
+    @GeneratedValue
     private Long id; // 主键
     @Column(name = "C_FIXED_AREA_NAME", unique = true)
     private String fixedAreaName; // 定区名称

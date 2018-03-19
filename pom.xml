@@ -10,6 +10,7 @@
   <modules>
     <module>bos_mangement</module>
       <module>cenobitorUtils</module>
+    <module>crm</module>
   </modules>
 
   <name>Maven</name>

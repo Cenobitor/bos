@@ -42,8 +42,8 @@ public class BaseAction<T> extends ActionSupport implements ModelDriven<T> {
         return model;
     }
 
-    protected int page;
-    protected int rows;
+    protected int page ;
+    protected int rows ;
 
     public void setPage(int page) {
         this.page = page;
@@ -77,7 +77,7 @@ public class BaseAction<T> extends ActionSupport implements ModelDriven<T> {
         response.getWriter().write(json);
     }
 
-    public void list2json(List<T> list,JsonConfig jsonConfig) throws IOException {
+    public void list2json(List list,JsonConfig jsonConfig) throws IOException {
         String json;
         //解决懒加载问题,灵活控制输出内容
         if (jsonConfig == null){
