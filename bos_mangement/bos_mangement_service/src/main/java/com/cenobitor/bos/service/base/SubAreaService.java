@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @Author: Cenobitor
@@ -19,4 +20,6 @@ public interface SubAreaService {
     Page<SubArea> pageQuery(Pageable pageable);
 
     void save(ArrayList<SubArea> list);
+
+    List<SubArea> findAll();
 }

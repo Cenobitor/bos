@@ -122,4 +122,57 @@ public class FixedAreaAction extends BaseAction<FixedArea>{
         fixedAreaService.associationCourierToFixedArea(getModel().getId(),courierId,takeTimeId);
         return SUCCESS;
     }
+
+    /*private Long subAreaId;
+
+    public void setSubAreaId(Long subAreaId) {
+        this.subAreaId = subAreaId;
+    }
+
+    @Action(value = "fixedAreaAction_associationFixedAreaToSubArea",results = {
+            @Result(name = "success",location = "/pages/base/fixed_area.html",type = "redirect")
+    })
+    public String associationFixedAreaToSubArea(){
+        fixedAreaService.associationFixedAreaToSubArea(getModel().getId(),subAreaId);
+        return SUCCESS;
+    }*/
+
+    @Action(value = "fixedAreaAction_findSubAreaAssociated")
+    public String findSubAreaAssociated() throws IOException {
+        List<SubArea> list = (List<SubArea>) fixedAreaService.findSubAreaAssociated(getModel().getId());
+
+        JsonConfig jsonConfig = new JsonConfig();
+        jsonConfig.setExcludes(new String[]{"fixedArea","area"});//忽略相关字段防止互相调用引起的懒加载问题
+
+        list2json(list,jsonConfig);
+        return NONE;
+    }
+
+    @Action(value = "fixedAreaAction_findSubAreaUnAssociated")
+    public String findSubAreaUnAssociated() throws IOException {
+        List<SubArea> list = (List<SubArea>) fixedAreaService.findSubAreaUnAssociated();
+
+        JsonConfig jsonConfig = new JsonConfig();
+        jsonConfig.setExcludes(new String[]{"subareas","area"});//忽略相关字段防止互相调用引起的懒加载问题
+
+        list2json(list,jsonConfig);
+        return NONE;
+    }
+
+
+    private Long[] subAreaIds;
+
+    public void setSubAreaIds(Long[] subAreaIds) {
+        this.subAreaIds = subAreaIds;
+    }
+
+    @Action(value = "fixedAreaAction_associationFixedAreaToSubArea",results = {
+            @Result(name = "success",location = "/pages/base/fixed_area.html",type = "redirect")
+    })
+    public String associationFixedAreaToSubArea(){
+        fixedAreaService.associationFixedAreaToSubArea(getModel(),subAreaIds);
+        return SUCCESS;
+    }
+
+
 }

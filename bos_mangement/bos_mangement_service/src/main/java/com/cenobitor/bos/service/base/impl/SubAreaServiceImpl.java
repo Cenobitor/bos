@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @Author: Cenobitor
@@ -39,5 +40,10 @@ public class SubAreaServiceImpl implements SubAreaService {
     @Override
     public void save(ArrayList<SubArea> list) {
         subAreaRepository.save(list);
+    }
+
+    @Override
+    public List<SubArea> findAll() {
+        return subAreaRepository.findAll();
     }
 }

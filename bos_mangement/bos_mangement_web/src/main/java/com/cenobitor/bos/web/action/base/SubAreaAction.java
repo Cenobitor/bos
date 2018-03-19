@@ -5,7 +5,6 @@ import com.cenobitor.bos.domain.base.FixedArea;
 import com.cenobitor.bos.domain.base.SubArea;
 import com.cenobitor.bos.service.base.SubAreaService;
 import com.cenobitor.bos.web.action.BaseAction;
-import com.cenobitor.utils.PinYin4jUtils;
 import net.sf.json.JsonConfig;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -21,7 +20,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 
-import javax.persistence.Column;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import java.io.File;
@@ -62,7 +60,7 @@ public class SubAreaAction extends BaseAction<SubArea> {
         Page<SubArea> page = subAreaService.pageQuery(pageable);
 
         JsonConfig jsonConfig = new JsonConfig();
-        jsonConfig.setExcludes(new String[]{"subareas"});//忽略相关字段防止互相调用引起的懒加载问题
+        jsonConfig.setExcludes(new String[]{"subareas","fixedArea"});//忽略相关字段防止互相调用引起的懒加载问题
 
         page2json(page,jsonConfig);
 
@@ -126,5 +124,14 @@ public class SubAreaAction extends BaseAction<SubArea> {
             e.printStackTrace();
         }
         return SUCCESS;
+    }
+
+    @Action(value = "subAreaAction_findAll")
+    public String findAll() throws IOException {
+        List<SubArea> list = subAreaService.findAll();
+        JsonConfig jsonConfig = new JsonConfig();
+        jsonConfig.setExcludes(new String[]{"area","fixedArea"});//忽略相关字段防止互相调用引起的懒加载问题
+        list2json(list,jsonConfig);
+        return NONE;
     }
 }

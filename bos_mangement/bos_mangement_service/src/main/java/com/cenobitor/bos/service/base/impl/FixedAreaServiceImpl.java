@@ -2,16 +2,17 @@ package com.cenobitor.bos.service.base.impl;
 
 import com.cenobitor.bos.dao.base.CourierRepository;
 import com.cenobitor.bos.dao.base.FixedAreaRepository;
+import com.cenobitor.bos.dao.base.SubAreaRepository;
 import com.cenobitor.bos.dao.base.TakeTimeRepository;
-import com.cenobitor.bos.domain.base.Courier;
-import com.cenobitor.bos.domain.base.FixedArea;
-import com.cenobitor.bos.domain.base.TakeTime;
+import com.cenobitor.bos.domain.base.*;
 import com.cenobitor.bos.service.base.FixedAreaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 /**
  * @Author: Cenobitor
@@ -30,6 +31,9 @@ public class FixedAreaServiceImpl implements FixedAreaService {
 
     @Autowired
     private TakeTimeRepository takeTimeRepository;
+
+    @Autowired
+    private SubAreaRepository subAreaRepository;
 
     @Override
     public void save(FixedArea fixedArea) {
@@ -51,5 +55,28 @@ public class FixedAreaServiceImpl implements FixedAreaService {
         courier.setTakeTime(takeTime);
         // 建立快递员和定区的关联
         fixedArea.getCouriers().add(courier);
+    }
+
+    @Override
+    public void associationFixedAreaToSubArea(FixedArea fixedAreaId, Long[] subAreaIds) {
+
+        if (fixedAreaId != null){
+            subAreaRepository.unbindByFixedAreaId(fixedAreaId);
+            if (subAreaIds != null && subAreaIds.length > 0){
+                for (Long subAreaId : subAreaIds) {
+                    subAreaRepository.bindFixedAreaById(fixedAreaId,subAreaId);
+                }
+            }
+        }
+    }
+
+    @Override
+    public List<SubArea> findSubAreaUnAssociated() {
+        return subAreaRepository.findByFixedAreaIdIsNull();
+    }
+
+    @Override
+    public List<SubArea> findSubAreaAssociated(Long id) {
+        return subAreaRepository.findByFixedAreaId(id);
     }
 }

@@ -84,6 +84,10 @@ public class SubArea {
         return area;
     }
 
+    public String getName() {
+        return keyWords+" "+assistKeyWords;
+    }
+
     public void setArea(Area area) {
         this.area = area;
     }
