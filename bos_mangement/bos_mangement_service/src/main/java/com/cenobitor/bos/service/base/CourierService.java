@@ -19,5 +19,6 @@ public interface CourierService {
 
     void batchDel(String ids);
 
-    List<Courier> findAll();
+    List<Courier> findAvaible();
+
 }

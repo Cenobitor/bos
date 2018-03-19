@@ -11,6 +11,7 @@
     <module>bos_mangement</module>
       <module>cenobitorUtils</module>
     <module>crm</module>
+    <module>portal</module>
   </modules>
 
   <name>Maven</name>
@@ -337,6 +338,17 @@
           <artifactId>itext</artifactId>
         </exclusion>
       </exclusions>
+    </dependency>
+    <!-- 短信验证 -->
+    <dependency>
+      <groupId>com.aliyun</groupId>
+      <artifactId>aliyun-java-sdk-core</artifactId>
+      <version>3.5.0</version>
+    </dependency>
+    <dependency>
+      <groupId>com.aliyun</groupId>
+      <artifactId>aliyun-java-sdk-dysmsapi</artifactId>
+      <version>1.0.0</version>
     </dependency>
 
   </dependencies>

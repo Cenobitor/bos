@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 /**
  * @Author: Cenobitor
  * @Description:
@@ -17,6 +19,8 @@ import org.springframework.stereotype.Repository;
 public interface CourierRepository extends JpaRepository<Courier,Long>,
         JpaSpecificationExecutor<Courier> {
     @Modifying
-    @Query("update Courier set deltag = 1 where id = ?")
+    @Query("update Courier set deltag = 1 where id = ?1")
     void updateDelTagsById(Long id);
+
+    List<Courier> findByDeltagIsNull();
 }

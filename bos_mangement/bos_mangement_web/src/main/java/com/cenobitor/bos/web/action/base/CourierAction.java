@@ -117,10 +117,12 @@ public class CourierAction extends BaseAction<Courier> {
 
     @Action(value = "courierAction_listajax")
     public String listajax() throws IOException {
-        List<Courier> list = courierService.findAll();
+        List<Courier> list = courierService.findAvaible();
+
         JsonConfig jsonConfig = new JsonConfig();
         jsonConfig.setExcludes(new String[]{"fixedAreas","takeTime"});
-        list2json(list,null);
+
+        list2json(list,jsonConfig);
         return NONE;
     }
 }

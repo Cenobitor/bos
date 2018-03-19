@@ -35,7 +35,7 @@ public class FixedArea {
     private String operatingCompany; // 操作单位
 
     @OneToMany(mappedBy = "fixedArea")
-    private Set<com.cenobitor.bos.domain.base.SubArea> subareas = new HashSet<com.cenobitor.bos.domain.base.SubArea>(0);
+    private Set<SubArea> subareas = new HashSet<com.cenobitor.bos.domain.base.SubArea>(0);
 
     @ManyToMany
     @JoinTable(name = "T_FIXEDAREA_COURIER",

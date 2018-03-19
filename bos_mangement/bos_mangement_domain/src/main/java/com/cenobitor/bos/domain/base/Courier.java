@@ -50,10 +50,10 @@ public class Courier {
 
     @ManyToOne
     @JoinColumn(name = "C_TAKETIME_ID")
-    private com.cenobitor.bos.domain.base.TakeTime takeTime;
+    private TakeTime takeTime;
 
     @ManyToMany(mappedBy = "couriers")
-    private Set<com.cenobitor.bos.domain.base.FixedArea> fixedAreas = new HashSet<com.cenobitor.bos.domain.base.FixedArea>();
+    private Set<FixedArea> fixedAreas = new HashSet<com.cenobitor.bos.domain.base.FixedArea>();
 
     public Long getId() {
         return id;

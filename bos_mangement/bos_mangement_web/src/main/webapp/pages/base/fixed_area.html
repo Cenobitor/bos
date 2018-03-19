@@ -326,6 +326,14 @@
 			$("#fixedAreaForm").submit();
 		}
 	}
+	//提交关联快递员表单
+    function submitData() {
+        if ($("#courierForm").form("validate")){
+            var rows = $("#grid").datagrid("getSelections");
+            $("#courierFixedAreaId").val(rows[0].id);
+            $("#courierForm").submit();
+        }
+    }
 </script>
 </head>
 
@@ -480,25 +488,21 @@
 					<tr>
 						<td>选择快递员</td>
 						<td>
-							<!-- 存放定区编号 --> <input type="hidden" name="id"
-							id="courierFixedAreaId" /> <input
-							data-options="ditable:false, url:'../../courierAction_listajax.action',valueField:'id',textField:'name'"
-							type="text" name="courierId" class="easyui-combobox"
-							required="true" />
+							<!-- 存放定区编号 -->
+							<input type="hidden" name="id" id="courierFixedAreaId" />
+							<input data-options="ditable:false, url:'../../courierAction_listajax.action',valueField:'id',textField:'name'"
+							type="text" name="courierId" class="easyui-combobox" required="true" />
 						</td>
 					</tr>
 					<tr>
 						<td>选择收派时间</td>
-						<td><select required="true" class="easyui-combobox"
-							name="takeTimeId">
-								<option>请选择</option>
-								<option value="1">北京早班</option>
-								<option value="2">北京晚班</option>
-						</select> <!-- <input type="text" name="takeTimeId" class="easyui-combobox" required="true" /> -->
+						<td>
+							<input data-options="ditable:false, url:'../../takeTimeAction_findAll.action',valueField:'id',textField:'name'"
+								   type="text" name="takeTimeId" class="easyui-combobox" required="true" />
 						</td>
 					</tr>
 					<tr>
-						<td colspan="3"><a id="associationCourierBtn" href="#"
+						<td colspan="3"><a id="associationCourierBtn" href="#" onclick="submitData()"
 							class="easyui-linkbutton" data-options="iconCls:'icon-save'">关联快递员</a>
 						</td>
 					</tr>

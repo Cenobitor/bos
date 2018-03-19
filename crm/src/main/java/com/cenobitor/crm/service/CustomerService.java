@@ -17,19 +17,23 @@ import java.util.List;
 public interface CustomerService {
     @GET
     @Path("/findAll")
-    public List<Customer> findAll();
+    List<Customer> findAll();
 
     @GET
     @Path("/findCustomersUnAssociated")
-    public List<Customer> findCustomersUnAssociated();
+    List<Customer> findCustomersUnAssociated();
 
     @GET
     @Path("/findCustomersAssociated2FixedArea")
-    public List<Customer> findCustomersAssociated2FixedArea(@QueryParam("fixedAreaId") String fixedAreaId);
+    List<Customer> findCustomersAssociated2FixedArea(@QueryParam("fixedAreaId") String fixedAreaId);
 
     @PUT
     @Path("/assignCustomers2FixedArea")
-    public void assignCustomers2FixedArea(@QueryParam("customerIds") Long[] customerIds,
+    void assignCustomers2FixedArea(@QueryParam("customerIds") Long[] customerIds,
                                           @QueryParam("fixedAreaId") String fixedAreaId);
+
+    @POST
+    @Path("/save")
+    void save(Customer customer);
 
 }
