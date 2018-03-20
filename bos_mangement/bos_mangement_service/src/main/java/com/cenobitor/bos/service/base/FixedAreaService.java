@@ -20,7 +20,7 @@ public interface FixedAreaService {
 
     void associationCourierToFixedArea(Long id, Long courierId, Long takeTimeId);
 
-    void associationFixedAreaToSubArea(FixedArea id, Long[] subAreaId);
+    void associationFixedAreaToSubArea(Long id, Long[] subAreaId);
 
     List<SubArea> findSubAreaUnAssociated();
 

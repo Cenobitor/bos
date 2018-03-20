@@ -1,11 +1,7 @@
 package com.cenobitor.bos.dao.base;
 
-import com.cenobitor.bos.domain.base.Customer;
-import com.cenobitor.bos.domain.base.FixedArea;
 import com.cenobitor.bos.domain.base.SubArea;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
@@ -21,11 +17,13 @@ public interface SubAreaRepository extends JpaRepository<SubArea,Long>{
 
     List<SubArea> findByFixedAreaId(Long id);
 
-    @Modifying
-    @Query("update SubArea set fixedArea = null where fixedArea = ?1")
-    void unbindByFixedAreaId(FixedArea fixedAreaId);
+    SubArea findOne(Long subAreaId);
 
-    @Modifying
-    @Query("update SubArea set fixedAreaId = ?1 where id = ?2")
-    void bindFixedAreaById(FixedArea fixedAreaId, Long subAreaId);
+//    @Modifying
+//    @Query("update SubArea set fixedArea = null where fixedArea = ?1")
+//    void unbindByFixedAreaId(Long fixedAreaId);
+//
+//    @Modifying
+//    @Query("update SubArea set fixedAreaId = ?1 where id = ?2")
+//    void bindFixedAreaById(Long fixedAreaId, Long subAreaId);
 }

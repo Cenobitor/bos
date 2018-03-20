@@ -20,7 +20,6 @@ import org.springframework.stereotype.Controller;
 
 import javax.ws.rs.core.MediaType;
 import java.io.IOException;
-import java.util.Collection;
 import java.util.List;
 
 /**
@@ -94,13 +93,23 @@ public class FixedAreaAction extends BaseAction<FixedArea>{
             @Result(name = "success",location = "/pages/base/fixed_area.html",type = "redirect")
     })
     public String assignCustomers2FixedArea(){
-        WebClient
-                .create("http://localhost:8180/webService/customerService/assignCustomers2FixedArea")
-                .type(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON)
-                .query("customerIds",customerIds)
-                .query("fixedAreaId",getModel().getId())
-                .put(null);
+        if (courierId != null){
+            WebClient
+                    .create("http://localhost:8180/webService/customerService/assignCustomers2FixedArea")
+                    .type(MediaType.APPLICATION_JSON)
+                    .accept(MediaType.APPLICATION_JSON)
+                    .query("customerIds",customerIds)
+                    .query("fixedAreaId",getModel().getId())
+                    .put(null);
+        }else {
+            WebClient
+                    .create("http://localhost:8180/webService/customerService/assignCustomers2FixedArea")
+                    .type(MediaType.APPLICATION_JSON)
+                    .accept(MediaType.APPLICATION_JSON)
+                    .query("fixedAreaId",getModel().getId())
+                    .put(null);
+        }
+
         return SUCCESS;
     }
 
@@ -170,7 +179,7 @@ public class FixedAreaAction extends BaseAction<FixedArea>{
             @Result(name = "success",location = "/pages/base/fixed_area.html",type = "redirect")
     })
     public String associationFixedAreaToSubArea(){
-        fixedAreaService.associationFixedAreaToSubArea(getModel(),subAreaIds);
+        fixedAreaService.associationFixedAreaToSubArea(getModel().getId(),subAreaIds);
         return SUCCESS;
     }
 

@@ -58,13 +58,18 @@ public class FixedAreaServiceImpl implements FixedAreaService {
     }
 
     @Override
-    public void associationFixedAreaToSubArea(FixedArea fixedAreaId, Long[] subAreaIds) {
+    public void associationFixedAreaToSubArea(Long fixedAreaId, Long[] subAreaIds) {
 
         if (fixedAreaId != null){
-            subAreaRepository.unbindByFixedAreaId(fixedAreaId);
+            FixedArea fixedArea = fixedAreaRepository.findOne(fixedAreaId);
+            List<SubArea> subAreas = subAreaRepository.findByFixedAreaId(fixedAreaId);
+            for (SubArea subArea : subAreas) {
+                subArea.setFixedArea(null);
+            }
             if (subAreaIds != null && subAreaIds.length > 0){
                 for (Long subAreaId : subAreaIds) {
-                    subAreaRepository.bindFixedAreaById(fixedAreaId,subAreaId);
+                    SubArea subArea = subAreaRepository.findOne(subAreaId);
+                    subArea.setFixedArea(fixedArea);
                 }
             }
         }
