@@ -1,6 +1,7 @@
 package com.cenobitor.crm.service;
 
 import com.cenobitor.crm.domain.Customer;
+import org.springframework.data.jpa.repository.Query;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -15,6 +16,7 @@ import java.util.List;
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public interface CustomerService {
+
     @GET
     @Path("/findAll")
     List<Customer> findAll();
@@ -35,5 +37,22 @@ public interface CustomerService {
     @POST
     @Path("/save")
     void save(Customer customer);
+
+
+    @GET
+    @Path("/checkCustomer")
+    Customer checkCustomer(@QueryParam("telephone") String telephone);
+
+    @PUT
+    @Path("/active")
+    void active(@QueryParam("telephone") String telephone);
+
+
+    @GET
+    @Path("/login")
+    Customer login(@QueryParam("telephone") String telephone,
+                   @QueryParam("password") String password);
+
+
 
 }

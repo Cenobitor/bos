@@ -23,6 +23,7 @@ public class CustomerServiceImpl implements CustomerService {
     @Autowired
     private CustomerRepository customerRepository;
 
+
     @Override
     public List<Customer> findAll() {
         return customerRepository.findAll();
@@ -53,6 +54,23 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public void save(Customer customer) {
         customerRepository.save(customer);
+    }
+
+
+    @Override
+    public Customer checkCustomer(String telephone) {
+
+        return customerRepository.findByTelephone(telephone);
+    }
+
+    @Override
+    public void active(String telephone) {
+        customerRepository.active(telephone);
+    }
+
+    @Override
+    public Customer login(String telephone, String password) {
+        return customerRepository.findByTelephoneAndPassword(telephone,password);
     }
 
 
