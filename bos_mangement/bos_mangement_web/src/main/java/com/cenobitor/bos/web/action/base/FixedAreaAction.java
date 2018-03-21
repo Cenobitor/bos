@@ -132,20 +132,6 @@ public class FixedAreaAction extends BaseAction<FixedArea>{
         return SUCCESS;
     }
 
-    /*private Long subAreaId;
-
-    public void setSubAreaId(Long subAreaId) {
-        this.subAreaId = subAreaId;
-    }
-
-    @Action(value = "fixedAreaAction_associationFixedAreaToSubArea",results = {
-            @Result(name = "success",location = "/pages/base/fixed_area.html",type = "redirect")
-    })
-    public String associationFixedAreaToSubArea(){
-        fixedAreaService.associationFixedAreaToSubArea(getModel().getId(),subAreaId);
-        return SUCCESS;
-    }*/
-
     @Action(value = "fixedAreaAction_findSubAreaAssociated")
     public String findSubAreaAssociated() throws IOException {
         List<SubArea> list = (List<SubArea>) fixedAreaService.findSubAreaAssociated(getModel().getId());

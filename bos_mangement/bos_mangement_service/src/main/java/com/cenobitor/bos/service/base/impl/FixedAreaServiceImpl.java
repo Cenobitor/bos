@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * @Author: Cenobitor
@@ -62,7 +63,7 @@ public class FixedAreaServiceImpl implements FixedAreaService {
 
         if (fixedAreaId != null){
             FixedArea fixedArea = fixedAreaRepository.findOne(fixedAreaId);
-            List<SubArea> subAreas = subAreaRepository.findByFixedAreaId(fixedAreaId);
+            Set<SubArea> subAreas = fixedArea.getSubareas();
             for (SubArea subArea : subAreas) {
                 subArea.setFixedArea(null);
             }
