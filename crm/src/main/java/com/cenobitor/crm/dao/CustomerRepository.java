@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import javax.ws.rs.QueryParam;
 import java.util.List;
 
 /**
@@ -36,4 +37,6 @@ public interface CustomerRepository extends JpaRepository<Customer,Long> {
     void active(String telephone);
 
     Customer findByTelephoneAndPassword(String telephone, String password);
+
+    Customer findByAddress(String sendAddress);
 }

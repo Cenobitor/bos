@@ -16,6 +16,12 @@
             <artifactId>cenobitorUtils</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
+        <dependency>
+            <groupId>com.cenobitor</groupId>
+            <artifactId>bos_mangement_domain</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
     </dependencies>
     <build>
         <finalName>portal</finalName>

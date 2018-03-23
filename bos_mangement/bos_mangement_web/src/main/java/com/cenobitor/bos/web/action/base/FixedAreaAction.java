@@ -1,6 +1,6 @@
 package com.cenobitor.bos.web.action.base;
 
-import com.cenobitor.bos.domain.base.Customer;
+import com.cenobitor.crm.domain.Customer;
 import com.cenobitor.bos.domain.base.FixedArea;
 import com.cenobitor.bos.domain.base.SubArea;
 import com.cenobitor.bos.service.base.FixedAreaService;

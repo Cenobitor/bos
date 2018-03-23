@@ -54,5 +54,8 @@ public interface CustomerService {
                    @QueryParam("password") String password);
 
 
+    @GET
+    @Path("/fixedAreaId")
+    Customer fixedAreaId(@QueryParam("sendAddress") String sendAddress);
 
 }

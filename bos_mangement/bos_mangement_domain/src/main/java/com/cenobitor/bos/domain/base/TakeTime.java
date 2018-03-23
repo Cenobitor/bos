@@ -23,17 +23,17 @@ public class TakeTime {
     @Column(name = "C_NAME")
     private String name; // 收派时间名称
     @Column(name = "C_NORMAL_WORK_TIME")
-    private String normalWorkTime; // 平常上班时间
+    private Integer normalWorkTime; // 平常上班时间
     @Column(name = "C_NORMAL_DUTY_TIME")
-    private String normalDutyTime; // 平常下班时间
+    private Integer normalDutyTime; // 平常下班时间
     @Column(name = "C_SAT_WORK_TIME")
-    private String satWorkTime; // 周六上班时间
+    private Integer satWorkTime; // 周六上班时间
     @Column(name = "C_SAT_DUTY_TIME")
-    private String satDutyTime; // 周六下班时间
+    private Integer satDutyTime; // 周六下班时间
     @Column(name = "C_SUN_WORK_TIME")
-    private String sunWorkTime; // 周日上班时间
+    private Integer sunWorkTime; // 周日上班时间
     @Column(name = "C_SUN_DUTY_TIME")
-    private String sunDutyTime; // 周日下班时间
+    private Integer sunDutyTime; // 周日下班时间
     @Column(name = "C_STATUS")
     private String status; // 状态
     @Column(name = "C_COMPANY")
@@ -63,51 +63,51 @@ public class TakeTime {
         this.name = name;
     }
 
-    public String getNormalWorkTime() {
+    public Integer getNormalWorkTime() {
         return normalWorkTime;
     }
 
-    public void setNormalWorkTime(String normalWorkTime) {
+    public void setNormalWorkTime(Integer normalWorkTime) {
         this.normalWorkTime = normalWorkTime;
     }
 
-    public String getNormalDutyTime() {
+    public Integer getNormalDutyTime() {
         return normalDutyTime;
     }
 
-    public void setNormalDutyTime(String normalDutyTime) {
+    public void setNormalDutyTime(Integer normalDutyTime) {
         this.normalDutyTime = normalDutyTime;
     }
 
-    public String getSatWorkTime() {
+    public Integer getSatWorkTime() {
         return satWorkTime;
     }
 
-    public void setSatWorkTime(String satWorkTime) {
+    public void setSatWorkTime(Integer satWorkTime) {
         this.satWorkTime = satWorkTime;
     }
 
-    public String getSatDutyTime() {
+    public Integer getSatDutyTime() {
         return satDutyTime;
     }
 
-    public void setSatDutyTime(String satDutyTime) {
+    public void setSatDutyTime(Integer satDutyTime) {
         this.satDutyTime = satDutyTime;
     }
 
-    public String getSunWorkTime() {
+    public Integer getSunWorkTime() {
         return sunWorkTime;
     }
 
-    public void setSunWorkTime(String sunWorkTime) {
+    public void setSunWorkTime(Integer sunWorkTime) {
         this.sunWorkTime = sunWorkTime;
     }
 
-    public String getSunDutyTime() {
+    public Integer getSunDutyTime() {
         return sunDutyTime;
     }
 
-    public void setSunDutyTime(String sunDutyTime) {
+    public void setSunDutyTime(Integer sunDutyTime) {
         this.sunDutyTime = sunDutyTime;
     }
 
@@ -150,5 +150,4 @@ public class TakeTime {
     public void setOperatingCompany(String operatingCompany) {
         this.operatingCompany = operatingCompany;
     }
-
 }

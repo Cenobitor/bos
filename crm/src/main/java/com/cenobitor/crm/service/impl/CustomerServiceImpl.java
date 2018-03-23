@@ -73,5 +73,10 @@ public class CustomerServiceImpl implements CustomerService {
         return customerRepository.findByTelephoneAndPassword(telephone,password);
     }
 
+    @Override
+    public Customer fixedAreaId(String sendAddress) {
+        return customerRepository.findByAddress(sendAddress);
+    }
+
 
 }

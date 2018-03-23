@@ -1,17 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
-	xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:jdbc="http://www.springframework.org/schema/jdbc" xmlns:tx="http://www.springframework.org/schema/tx"
-	xmlns:jpa="http://www.springframework.org/schema/data/jpa" xmlns:task="http://www.springframework.org/schema/task"
-	xsi:schemaLocation="
-						http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-						http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
-						http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
-						http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc.xsd
-						http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
-						http://www.springframework.org/schema/data/jpa 
-						http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:aop="http://www.springframework.org/schema/aop"
+	   xmlns:context="http://www.springframework.org/schema/context"
+	   xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	   xmlns:tx="http://www.springframework.org/schema/tx"
+	   xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+	   xmlns:task="http://www.springframework.org/schema/task"
+	   xmlns:jaxws="http://cxf.apache.org/jaxws"
+	   xmlns:soap="http://cxf.apache.org/bindings/soap"
+	   xmlns:jaxrs="http://cxf.apache.org/jaxrs"
+	   xsi:schemaLocation="
+                 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                 http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+                 http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+                 http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc.xsd
+                 http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+                 http://www.springframework.org/schema/data/jpa
+                 http://www.springframework.org/schema/data/jpa/spring-jpa.xsd
+                 http://cxf.apache.org/bindings/soap
+                 http://cxf.apache.org/schemas/configuration/soap.xsd
+                 http://cxf.apache.org/jaxws
+                 http://cxf.apache.org/schemas/jaxws.xsd
+                 http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd">
 
 	<!--
 		#########################################################
@@ -33,7 +44,7 @@
 			指定JPA扫描的实体类所在的包
 			#########################################################
 		-->
-		<property name="packagesToScan" value="com.cenobitor.bos.domain.base" />
+		<property name="packagesToScan" value="com.cenobitor.bos.domain" />
 		<!-- 指定持久层提供者为Hibernate -->
 		<property name="persistenceProvider">
 			<bean class="org.hibernate.ejb.HibernatePersistence" />
@@ -75,5 +86,12 @@
 		#########################################################
 	-->
 	<jpa:repositories base-package="com.cenobitor.bos.dao" />
+
+	<!-- 配置webService -->
+	<jaxrs:server address="/orderService">
+		<jaxrs:serviceBeans>
+			<ref bean="orderServiceImpl"/>
+		</jaxrs:serviceBeans>
+	</jaxrs:server>
 
 </beans>
