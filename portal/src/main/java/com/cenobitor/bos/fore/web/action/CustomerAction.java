@@ -1,9 +1,7 @@
 package com.cenobitor.bos.fore.web.action;
 
-import com.aliyuncs.exceptions.ClientException;
 import com.cenobitor.crm.domain.Customer;
 import com.cenobitor.utils.MailUtils;
-import com.cenobitor.utils.SmsUtils;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -14,13 +12,16 @@ import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.TimeoutUtils;
+import org.springframework.jms.core.JmsTemplate;
+import org.springframework.jms.core.MessageCreator;
 import org.springframework.stereotype.Controller;
 
+import javax.jms.JMSException;
+import javax.jms.MapMessage;
+import javax.jms.Message;
+import javax.jms.Session;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 import java.io.IOException;
-import java.util.Collection;
 import java.util.concurrent.TimeUnit;
 
 
@@ -43,16 +44,24 @@ public class CustomerAction extends ActionSupport implements ModelDriven<Custome
         return model;
     }
 
+    @Autowired
+    private JmsTemplate jmsTemplate;
+
     @Action(value = "customerAction_sendSMS")
     public String sendSMS(){
-//        try {
-        String code = RandomStringUtils.randomNumeric(6);
-        System.out.println(code);
-        ServletActionContext.getRequest().getSession().setAttribute("serverCode",code);
-//            SmsUtils.sendSms(model.getTelephone(),code);
-//        } catch (ClientException e) {
-//            e.printStackTrace();
-//        }
+            final String code = RandomStringUtils.randomNumeric(6);
+            System.out.println(code);
+            ServletActionContext.getRequest().getSession().setAttribute("serverCode",code);
+
+            jmsTemplate.send("sms", new MessageCreator() {
+                @Override
+                public Message createMessage(Session session) throws JMSException {
+                    MapMessage mapMessage = session.createMapMessage();
+                    mapMessage.setString("tel",model.getTelephone());
+                    mapMessage.setString("code",code);
+                    return mapMessage;
+                }
+            });
         return NONE;
     }
 

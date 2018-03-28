@@ -14,10 +14,33 @@
     <param-name>contextConfigLocation</param-name>
     <param-value>classpath:applicationContext.xml</param-value>
   </context-param>
+  <!--
+      spring框架提供,整合shiro框架
+      一定要在Struts拦截器之前配置
+      DelegatingFilterProxy在创建过程中,依赖一个对象,这个对象必须在applicationContext.xml 文件中间注册,
+      而且注册的时候声明的ID必须和DelegatingFilterProxy声明的filter-name保持一致
+   -->
+  <filter>
+    <filter-name>shiroFilterFactoryBean</filter-name>
+    <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>shiroFilterFactoryBean</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+  
   <!-- 配置Struts的前端控制器 -->
   <filter>
     <filter-name>struts</filter-name>
     <filter-class>org.apache.struts2.dispatcher.ng.filter.StrutsPrepareAndExecuteFilter</filter-class>
+    <init-param>
+      <param-name>struts.multipart.maxSize</param-name>
+      <param-value>10000000</param-value>
+    </init-param>
+    <init-param>
+          <param-name>struts.multipart.saveDir</param-name>
+          <param-value>true</param-value>
+    </init-param>
   </filter>
   <filter-mapping>
     <filter-name>struts</filter-name>

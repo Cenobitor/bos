@@ -12,6 +12,7 @@
       <module>cenobitorUtils</module>
     <module>crm</module>
     <module>portal</module>
+      <module>middleware</module>
   </modules>
 
   <name>Maven</name>

@@ -1,7 +1,8 @@
-package com.cenobitor.bos.service.base;
+package com.cenobitor.bos.service.base.impl;
 
 import com.cenobitor.bos.dao.base.TakeTimeRepository;
 import com.cenobitor.bos.domain.base.TakeTime;
+import com.cenobitor.bos.service.base.TakeTimeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

@@ -23,12 +23,15 @@
 							id : 'add',
 							text : '添加菜单',
 							iconCls : 'icon-add',
-							handler : function(){
+                            handler : function(){
 								location.href='menu_add.html';
 							}
 						}           
 					],
-					url : '',
+                    pageList: [30,50,100],
+                    pagination : true,
+                    fit:true,
+                    url : "../../menuAction_pageQuery.action",
 					columns : [[
 					  {
 						  field : 'id',

@@ -151,7 +151,12 @@
 					columns : columns,
 					onDblClickRow : doDblClickRow,
 					onAfterEdit : function(rowIndex, rowData, changes){
-						console.info(rowData);
+					    //请求后台保存数据
+						$.post("../../waybillAction_save.action",rowData,function (data) {
+								if (data ==1){
+								    $.messager.alert("提示","数据录入失败,请重新录入","warning")
+								}
+                        })
 						editIndex = undefined;
 					}
 				});
