@@ -6,6 +6,7 @@ import com.cenobitor.bos.domain.base.SubArea;
 import com.cenobitor.bos.service.base.SubAreaService;
 import com.cenobitor.bos.web.action.BaseAction;
 import net.sf.json.JsonConfig;
+import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Row;
@@ -25,6 +26,7 @@ import javax.persistence.ManyToOne;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -80,6 +82,7 @@ public class SubAreaAction extends BaseAction<SubArea> {
 
         ArrayList<SubArea> list = new ArrayList<>();
         try {
+
             HSSFWorkbook workbook = new HSSFWorkbook(new FileInputStream(file));
 
             HSSFSheet sheetAt = workbook.getSheetAt(0);
@@ -132,6 +135,24 @@ public class SubAreaAction extends BaseAction<SubArea> {
         JsonConfig jsonConfig = new JsonConfig();
         jsonConfig.setExcludes(new String[]{"area","fixedArea"});//忽略相关字段防止互相调用引起的懒加载问题
         list2json(list,jsonConfig);
+        return NONE;
+    }
+
+    @Action(value = "subAreaAction_exportExcel")
+    public String exportExcel() throws IOException {
+        List<SubArea> list = subAreaService.findAll();
+        //在内存中创建Excel文件
+        HSSFWorkbook hssfWorkbook = new HSSFWorkbook();
+        //创建工作簿
+        HSSFSheet sheet = hssfWorkbook.createSheet("分区统计数据");
+        //创建第一行,即表头
+        HSSFRow titleRow = sheet.createRow(0);
+        titleRow.createCell(0).setCellValue("分拣编号");
+        titleRow.createCell(0).setCellValue("分拣编号");
+        titleRow.createCell(0).setCellValue("分拣编号");
+
+        hssfWorkbook.close();
+
         return NONE;
     }
 }
