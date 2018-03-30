@@ -10,7 +10,7 @@ import org.springframework.data.domain.Pageable;
  * @Modified By:
  */
 public interface UserService {
-    void save(User user);
+    void save(User user, Long[] roleIds);
 
     Page<User> pageQuery(Pageable pageable);
 }

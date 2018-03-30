@@ -1,10 +1,16 @@
 package com.cenobitor.bos.web.action.system;
 
-import com.cenobitor.bos.domain.base.SubArea;
 import com.cenobitor.bos.domain.system.Menu;
+import com.cenobitor.bos.domain.system.User;
 import com.cenobitor.bos.service.system.MenuService;
 import com.cenobitor.bos.web.action.BaseAction;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Namespace;
 import org.apache.struts2.convention.annotation.ParentPackage;
@@ -18,6 +24,7 @@ import org.springframework.stereotype.Controller;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Author: Cenobitor
@@ -65,5 +72,18 @@ public class MenuAction extends BaseAction<Menu>{
         return NONE;
     }
 
+    @Action(value = "menuAction_findbyUser")
+    public String findbyUser() throws IOException {
+        Subject subject = SecurityUtils.getSubject();
+        User user = (User) subject.getPrincipal();
+
+        List<Menu> list = menuService.findbyUser(user);
+
+        JsonConfig jsonConfig = new JsonConfig();
+        jsonConfig.setExcludes(new String[]{"roles","childrenMenus","parentMenu"});
+
+        list2json(list,jsonConfig);
+        return NONE;
+    }
 
 }

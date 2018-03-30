@@ -88,14 +88,19 @@ public class UserAction extends BaseAction<User> {
         return "login";
     }
 
+    private Long[] roleIds;
+
+    public void setRoleIds(Long[] roleIds) {
+        this.roleIds = roleIds;
+    }
+
     @Action(value = "userAction_save",results = {
             @Result(name = "success",type = "redirect",location = "/pages/system/userlist.html")
     })
     public String save() {
-        userService.save(getModel());
+        userService.save(getModel(),roleIds);
         return SUCCESS;
     }
-
 
     @Action(value = "userAction_pageQuery")
     public String pageQuery() throws IOException {

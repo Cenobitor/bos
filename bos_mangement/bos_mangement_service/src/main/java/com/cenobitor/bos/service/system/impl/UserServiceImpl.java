@@ -1,6 +1,7 @@
 package com.cenobitor.bos.service.system.impl;
 
 import com.cenobitor.bos.dao.system.UserRepository;
+import com.cenobitor.bos.domain.system.Role;
 import com.cenobitor.bos.domain.system.User;
 import com.cenobitor.bos.service.system.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,9 +23,16 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
 
+
     @Override
-    public void save(User user) {
+    public void save(User user, Long[] roleIds) {
+
         userRepository.save(user);
+        for (Long roleId : roleIds) {
+            Role role = new Role();
+            role.setId(roleId);
+            user.getRoles().add(role);
+        }
     }
 
     @Override

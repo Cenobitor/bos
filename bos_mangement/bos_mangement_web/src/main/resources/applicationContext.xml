@@ -124,14 +124,14 @@
 		<!-- 权限认证失败(权限不足)以后要跳转的页面 只对拦截器生效,不对注解起效-->
 		<property name="unauthorizedUrl" value="/unauthorizedUrl.html"/>
 		<!--指定拦截规则-->
-		<!--<property name="filterChainDefinitions" >
-			&lt;!&ndash;
+		<property name="filterChainDefinitions" >
+			<!--
 				authc:框架提供的过滤器,有权限就放行,没有权限就拦截
 				anon:框架提供的过滤器,可以匿名访问
 				perms:框架提供的过滤器,用户请求资源的时候,会去检查用户是否拥有对应的权限,如果有就放行,没有,跳转到unauthorizedUrl属性指定的页面
 				拦截的规则执行的时候是从上往下执行的,一旦有一个规则匹配成功.后面的规则就不再执行了
 				拦截规则不能折行
-			&ndash;&gt;
+			-->
 			<value>
 				/css/* = anon
 				/data/* = anon
@@ -142,11 +142,23 @@
 				/courierAction_pageQuery.action = perms["courierAction_pageQuery"]
 				/** = authc
 			</value>
-		</property>-->
+		</property>
 
 	</bean>
 	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
 		<property name="realm" ref="userRealm"/>
+	</bean>
+
+	<!--配置缓存权限-->
+	<bean id="securityManger" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+		<!--注入realm-->
+		<property name="realm" ref="userRealm"></property>
+		<!--注入缓存管理器-->
+		<property name="cacheManager" ref="cacheManager"></property>
+	</bean>
+	<!--注册缓存管理器-->
+	<bean id="cacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">
+		<property name="cacheManagerConfigFile" value="classpath:ehcache.xml"/>
 	</bean>
 
 	<!--quartz 定时任务配置-->

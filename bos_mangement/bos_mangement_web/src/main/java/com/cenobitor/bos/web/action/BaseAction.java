@@ -91,6 +91,4 @@ public class BaseAction<T> extends ActionSupport implements ModelDriven<T> {
         response.setContentType("application/json;charset=utf-8");
         response.getWriter().write(json);
     }
-
-
 }

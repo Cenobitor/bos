@@ -2,6 +2,7 @@ package com.cenobitor.bos.service.system.impl;
 
 import com.cenobitor.bos.dao.system.MenuRepository;
 import com.cenobitor.bos.domain.system.Menu;
+import com.cenobitor.bos.domain.system.User;
 import com.cenobitor.bos.service.system.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -42,6 +43,15 @@ public class MenuServiceImpl implements MenuService {
     @Override
     public Page<Menu> pageQuery(Pageable pageable) {
         return menuRepository.findAll(pageable);
+    }
+
+    @Override
+    public List<Menu> findbyUser(User user) {
+        if ("admin".equals(user.getUsername())){
+            return menuRepository.findAll();
+        }
+
+        return menuRepository.findbyUid(user.getId());
     }
 }
 

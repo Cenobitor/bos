@@ -1,5 +1,6 @@
 package com.cenobitor.bos.domain.system;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -10,7 +11,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "T_MENU")
-public class Menu {
+public class Menu implements Serializable {
     @Id
     @GeneratedValue
     @Column(name = "C_ID")
@@ -33,6 +34,13 @@ public class Menu {
     @ManyToOne
     @JoinColumn(name = "C_PID")
     private Menu parentMenu;
+
+    public Long getpId() {
+        if (parentMenu == null){
+            return 0L;
+        }
+        return parentMenu.getId();
+    }
 
     public String getText(){
         return name;

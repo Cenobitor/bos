@@ -1,6 +1,7 @@
 package com.cenobitor.bos.service.system;
 
 import com.cenobitor.bos.domain.system.Menu;
+import com.cenobitor.bos.domain.system.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -19,4 +20,6 @@ public interface MenuService {
     void save(Menu menu);
 
     Page<Menu> pageQuery(Pageable pageable);
+
+    List<Menu> findbyUser(User user);
 }

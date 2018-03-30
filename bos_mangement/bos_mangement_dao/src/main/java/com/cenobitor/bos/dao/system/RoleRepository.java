@@ -2,7 +2,10 @@ package com.cenobitor.bos.dao.system;
 
 import com.cenobitor.bos.domain.system.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 /**
  * @Author: Cenobitor
@@ -12,4 +15,6 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface RoleRepository extends JpaRepository<Role,Long>{
+    @Query("select r from Role r inner join r.users u where u.id = ?1")
+    List<Role> findbyUid(Long id);
 }
