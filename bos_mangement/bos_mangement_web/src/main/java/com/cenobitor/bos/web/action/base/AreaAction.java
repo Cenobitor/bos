@@ -208,4 +208,12 @@ public class AreaAction  extends BaseAction<Area> {
         return NONE;
     }
 
+    @Action(value = "areaAction_chart")
+    public String chart() throws IOException {
+        List<Object[]> list = areaService.getChartData();
+        list2json(list,null);
+
+        return NONE;
+    }
+
 }

@@ -46,4 +46,10 @@ public class SubAreaServiceImpl implements SubAreaService {
     public List<SubArea> findAll() {
         return subAreaRepository.findAll();
     }
+
+
+    @Override
+    public List<Object[]> getChartData() {
+        return subAreaRepository.getChartData();
+    }
 }

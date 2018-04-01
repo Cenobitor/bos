@@ -155,4 +155,12 @@ public class SubAreaAction extends BaseAction<SubArea> {
 
         return NONE;
     }
+
+    @Action(value = "subAreaAction_chart")
+    public String chart() throws IOException {
+        List<Object[]> list = subAreaService.getChartData();
+        list2json(list,null);
+
+        return NONE;
+    }
 }

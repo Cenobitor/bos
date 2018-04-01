@@ -83,7 +83,6 @@
 		开启事务注解
 		JDK代理
 		CGLib代理方式
-
 		proxy-target-class:true 使用cglib代理
 		proxy-target-class:false 使用jdk代理
 	-->
@@ -96,7 +95,7 @@
 	</bean>
 	<!--配置切面-->
 	<bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
-		<!--注释安全管理器 -->
+		<!--注入安全管理器 -->
 		<property name="securityManager" ref="securityManager"/>
 	</bean>
 	<!--
@@ -111,6 +110,18 @@
 		<jaxrs:serviceBeans>
 			<ref bean="orderServiceImpl"/>
 		</jaxrs:serviceBeans>
+	</jaxrs:server>
+
+	<jaxrs:server address="/promotionService">
+		<jaxrs:serviceBeans>
+			<ref bean="promotionServiceImpl"/>
+		</jaxrs:serviceBeans>
+		<jaxrs:inInterceptors>
+			<bean class="org.apache.cxf.interceptor.LoggingInInterceptor"></bean>
+		</jaxrs:inInterceptors>
+		<jaxrs:outInterceptors>
+			<bean class="org.apache.cxf.interceptor.LoggingOutInterceptor"></bean>
+		</jaxrs:outInterceptors>
 	</jaxrs:server>
 
 	<!-- 初始化shiro框架提供的过滤器 -->
@@ -133,6 +144,8 @@
 				拦截规则不能折行
 			-->
 			<value>
+				/webService/** = anon
+				/upload/* = anon
 				/css/* = anon
 				/data/* = anon
 				/images/* = anon
@@ -146,6 +159,7 @@
 
 	</bean>
 	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+		<!-- 配置realm类 -->
 		<property name="realm" ref="userRealm"/>
 	</bean>
 

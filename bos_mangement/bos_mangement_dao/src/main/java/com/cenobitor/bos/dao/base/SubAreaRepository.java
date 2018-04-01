@@ -2,6 +2,7 @@ package com.cenobitor.bos.dao.base;
 
 import com.cenobitor.bos.domain.base.SubArea;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
@@ -18,6 +19,12 @@ public interface SubAreaRepository extends JpaRepository<SubArea,Long>{
     List<SubArea> findByFixedAreaId(Long id);
 
     SubArea findOne(Long subAreaId);
+
+
+
+    @Query("select a.province, count(a.province) from SubArea s inner join s.area a group by a.province")
+    List<Object[]> getChartData();
+
 
 //    @Modifying
 //    @Query("update SubArea set fixedArea = null where fixedArea = ?1")

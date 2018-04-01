@@ -20,4 +20,7 @@ public interface AreaService {
     Page<Area> pageQuery(Pageable pageable);
 
     List<Area> findQ(String q);
+
+    List<Object[]> getChartData();
+
 }

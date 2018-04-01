@@ -86,6 +86,7 @@ public class BaseAction<T> extends ActionSupport implements ModelDriven<T> {
         }else {
             json = JSONArray.fromObject(list,jsonConfig).toString();
         }
+        System.out.println(json);
 
         HttpServletResponse response = ServletActionContext.getResponse();
         response.setContentType("application/json;charset=utf-8");

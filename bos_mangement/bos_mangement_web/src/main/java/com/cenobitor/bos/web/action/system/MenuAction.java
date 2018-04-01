@@ -1,5 +1,6 @@
 package com.cenobitor.bos.web.action.system;
 
+import com.alibaba.fastjson.serializer.SimplePropertyPreFilter;
 import com.cenobitor.bos.domain.system.Menu;
 import com.cenobitor.bos.domain.system.User;
 import com.cenobitor.bos.service.system.MenuService;
@@ -11,6 +12,7 @@ import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
+import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Namespace;
 import org.apache.struts2.convention.annotation.ParentPackage;
@@ -22,6 +24,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -83,6 +86,7 @@ public class MenuAction extends BaseAction<Menu>{
         jsonConfig.setExcludes(new String[]{"roles","childrenMenus","parentMenu"});
 
         list2json(list,jsonConfig);
+
         return NONE;
     }
 

@@ -22,4 +22,7 @@ public interface SubAreaService {
     void save(ArrayList<SubArea> list);
 
     List<SubArea> findAll();
+
+    List<Object[]> getChartData();
+
 }
